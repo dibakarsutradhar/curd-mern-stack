@@ -9,16 +9,16 @@ const passport = require("passport");
 const validateRegisterInput = require("../../validation/register");
 const validateLoginInput = require("../../validation/login");
 
-// Load user model
+// Load User model
 const User = require("../../models/User");
 
 // @route   GET api/users/test
-// @desc    Test users route
+// @desc    Tests users route
 // @access  Public
-router.get("/test", (req, res) => res.json({ msg: "Users works" }));
+router.get("/test", (req, res) => res.json({ msg: "Users Works" }));
 
 // @route   GET api/users/register
-// @desc    Register User
+// @desc    Register user
 // @access  Public
 router.post("/register", (req, res) => {
   const { errors, isValid } = validateRegisterInput(req.body);
@@ -30,16 +30,16 @@ router.post("/register", (req, res) => {
 
   User.findOne({ email: req.body.email }).then((user) => {
     if (user) {
-      errors.email = "Email alread exists";
+      errors.email = "Email already exists";
       return res.status(400).json(errors);
     } else {
       const newUser = new User({
         name: req.body.name,
         email: req.body.email,
+        avatar,
         password: req.body.password,
       });
 
-      // Password Encryption
       bcrypt.genSalt(10, (err, salt) => {
         bcrypt.hash(newUser.password, salt, (err, hash) => {
           if (err) throw err;
@@ -55,7 +55,7 @@ router.post("/register", (req, res) => {
 });
 
 // @route   GET api/users/login
-// @desc    login User / Returing JWT Token
+// @desc    Login User / Returning JWT Token
 // @access  Public
 router.post("/login", (req, res) => {
   const { errors, isValid } = validateLoginInput(req.body);
@@ -68,21 +68,21 @@ router.post("/login", (req, res) => {
   const email = req.body.email;
   const password = req.body.password;
 
-  // Find the user by email
+  // Find user by email
   User.findOne({ email }).then((user) => {
     // Check for user
     if (!user) {
-      errors.email = "User Not Found";
+      errors.email = "User not found";
       return res.status(404).json(errors);
     }
 
     // Check Password
     bcrypt.compare(password, user.password).then((isMatch) => {
       if (isMatch) {
-        // User matched
-        const payload = { id: user.id, name: user.name }; // Create JWT payload
+        // User Matched
+        const payload = { id: user.id, name: user.name, avatar: user.avatar }; // Create JWT Payload
 
-        // Sign token
+        // Sign Token
         jwt.sign(
           payload,
           keys.secretOrKey,
@@ -95,7 +95,7 @@ router.post("/login", (req, res) => {
           }
         );
       } else {
-        errors.password = "Password Incorrect";
+        errors.password = "Password incorrect";
         return res.status(400).json(errors);
       }
     });

@@ -1,5 +1,7 @@
 import React from "react";
 import { BrowserRouter as Router, Route } from "react-router-dom";
+import { Provider } from "react-redux";
+import store from "./store";
 
 import Navbar from "./components/layout/Navbar";
 import Footer from "./components/layout/Footer";
@@ -15,21 +17,23 @@ import "./App.css";
 
 function App() {
   return (
-    <Router>
-      <div className="App">
-        <Navbar />
-        <Route path="/" exact component={Landing} />
-        <div className="container">
-          <Route path="/register" exact component={Register} />
-          <Route path="/login" exact component={Login} />
-          <Route path="/menu" exact component={Menu} />
-          <Route path="/order" exact component={Order} />
-          <Route path="/reservation" exact component={Reservation} />
-          <Route path="/tracker" exact component={Tracker} />
+    <Provider store={store}>
+      <Router>
+        <div className="App">
+          <Navbar />
+          <Route path="/" exact component={Landing} />
+          <div className="container">
+            <Route path="/register" exact component={Register} />
+            <Route path="/login" exact component={Login} />
+            <Route path="/menu" exact component={Menu} />
+            <Route path="/order" exact component={Order} />
+            <Route path="/reservation" exact component={Reservation} />
+            <Route path="/tracker" exact component={Tracker} />
+          </div>
+          <Footer />
         </div>
-        <Footer />
-      </div>
-    </Router>
+      </Router>
+    </Provider>
   );
 }
 

@@ -15,10 +15,6 @@ module.exports = function validateProfileInput(data) {
     errors.handle = "Profile handle is required";
   }
 
-  if (Validator.isEmpty(data.location)) {
-    errors.location = "Location field is required";
-  }
-
   return {
     errors,
     isValid: isEmpty(errors),

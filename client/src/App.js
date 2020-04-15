@@ -19,6 +19,7 @@ import Order from "./components/store/Order";
 import Reservation from "./components/store/Reservation";
 import Tracker from "./components/store/Tracker";
 import Dashboard from "./components/dashboard/Dashboard";
+import CreateProfile from "./components/create-profile/CreateProfile";
 
 import "./App.css";
 
@@ -58,6 +59,13 @@ function App() {
             <Route path="/tracker" exact component={Tracker} />
             <Switch>
               <PrivateRoute path="/dashboard" exact component={Dashboard} />
+            </Switch>
+            <Switch>
+              <PrivateRoute
+                path="/create-profile"
+                exact
+                component={CreateProfile}
+              />
             </Switch>
           </div>
           <Footer />

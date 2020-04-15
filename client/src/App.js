@@ -3,6 +3,7 @@ import { BrowserRouter as Router, Route } from "react-router-dom";
 import jwt_decode from "jwt-decode";
 import setAuthToken from "./utils/setAuthToken";
 import { setCurrentUser, logoutUser } from "./actions/authActions";
+import { clearCurrentProfile } from "./actions/profileActions";
 import { Provider } from "react-redux";
 import store from "./store";
 
@@ -15,6 +16,7 @@ import Menu from "./components/store/Menu";
 import Order from "./components/store/Order";
 import Reservation from "./components/store/Reservation";
 import Tracker from "./components/store/Tracker";
+import Dashboard from "./components/dashboard/Dashboard";
 
 import "./App.css";
 
@@ -31,7 +33,8 @@ if (localStorage.jwtToken) {
   if (decoded.exp < currenTime) {
     // Logout User
     store.dispatch(logoutUser());
-    // TODO: Clear Current Profile
+    // Clear Current Profile
+    store.dispatch(clearCurrentProfile());
     // Redirect To Login
     window.location.href = "/";
   }
@@ -51,6 +54,7 @@ function App() {
             <Route path="/order" exact component={Order} />
             <Route path="/reservation" exact component={Reservation} />
             <Route path="/tracker" exact component={Tracker} />
+            <Route path="/dashboard" exact component={Dashboard} />
           </div>
           <Footer />
         </div>
